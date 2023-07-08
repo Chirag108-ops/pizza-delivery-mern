@@ -21,7 +21,7 @@ app.use(session({
 }))
 app.use(
     cors({
-        origin : 'https://pizza-delivery-mern-client.vercel.app/',
+        origin : 'https://pizza-delivery-mern-client.vercel.app',
         credentials : true
     })
 )
@@ -41,7 +41,7 @@ const server = app.listen(PORT,() => {
 })
 const io = require('socket.io')(server, {
     cors : {
-        origin : "http://localhost:3000"
+        origin : "https://pizza-delivery-mern-client.vercel.app"
     }
   })
 
