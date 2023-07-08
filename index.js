@@ -21,7 +21,7 @@ app.use(session({
 }))
 app.use(
     cors({
-        origin : 'http://localhost:3000',
+        origin : 'https://pizza-delivery-mern-client.vercel.app/',
         credentials : true
     })
 )
