@@ -15,7 +15,8 @@ exports.statusController = async (req, res) => {
             })
         }
         const eventEmitter = req.app.get('eventEmitter')
-        eventEmitter.emit('orderUpdated',{ id: orderId, status: status })
+        eventEmitter.emit('orderUpdated', { id: orderId, status: status })
+
         return res.status(200).json({
             success: true,
             message: 'Order Updated Successfully',

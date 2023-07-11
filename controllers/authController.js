@@ -51,7 +51,6 @@ exports.login = async (req, res) => {
                 message: 'All fields are required'
             })
         }
-
         const userDetails = await User.findOne({ email });
         if (!userDetails) {
             return res.status(404).json({
@@ -69,15 +68,8 @@ exports.login = async (req, res) => {
             const token = jwt.sign(payload, process.env.JWT_SECRET, {
                 expiresIn: '24h'
             })
-            userDetails.token = token
             userDetails.password = undefined
-            const options = {
-                expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-                httpOnly: true,
-                sameSite:'none',
-                domain: 'localhost'
-            }
-            return res.cookie('token', token, options).status(200).json({
+            return res.status(200).json({
                 success: true,
                 token,
                 userDetails,
@@ -85,39 +77,15 @@ exports.login = async (req, res) => {
             })
         }
         return res.status(401).json({
-            success : false,
-            message : 'Password is incorrect'
+            success: false,
+            message: 'Password is incorrect'
         })
     }
     catch (error) {
         return res.status(500).json({
-            success : false,
-            message : 'Error while logging in the user',
-            error : error.message
+            success: false,
+            message: 'Error while logging in the user',
+            error: error.message
         })
     }
 }
-
-exports.logout = async (req, res) => {
-    try {
-      // Clear the token cookie by setting its expiration to a past date
-      res.cookie('token', '', {
-        expires: new Date(0),
-        httpOnly: true,
-        sameSite: 'none',
-        domain: 'localhost'
-      });
-  
-      return res.status(200).json({
-        success: true,
-        message: 'User logged out successfully'
-      });
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: 'Error while logging out the user',
-        error: error.message
-      });
-    }
-  };
-  
