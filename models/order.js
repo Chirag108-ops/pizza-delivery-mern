@@ -21,11 +21,15 @@ const orderSchema = new mongoose.Schema({
     },
     paymentType : {
         type : String,
-        default : 'COD'
+        required : true
     },
     status : {
         type : String,
         default : 'order_placed'
+    },
+    cutlery : {
+        type : String,
+        required : true
     }
 },{
     timestamps : true

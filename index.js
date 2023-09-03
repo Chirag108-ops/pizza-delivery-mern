@@ -2,8 +2,9 @@ const express = require('express')
 const app = express()
 const { dbconnect } = require('./config/database')
 const cors = require('cors')
+const {cloudinaryConnect} = require('./config/cloudinary')
+const fileUpload = require('express-fileupload')
 require('dotenv').config()
-const PORT = process.env.PORT || 4000
 const Emitter = require('events')
 app.use(express.json())
 app.use(
@@ -16,13 +17,21 @@ const customerRoutes = require('./routes/customerRoutes')
 const adminRoutes = require('./routes/adminRoutes')
 const authRoutes = require('./routes/authRoutes')
 dbconnect()
+
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : '/tmp'
+}))
+
+cloudinaryConnect()
+
 const eventEmitter = new Emitter()
 app.set('eventEmitter', eventEmitter)
 
 app.use('/api/v1/customer', customerRoutes)
 app.use('/api/v1/admin', adminRoutes)
 app.use('/api/v1/auth', authRoutes)
-
+const PORT = process.env.PORT
 const server = app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
 })
