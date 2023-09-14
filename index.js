@@ -35,8 +35,6 @@ const PORT = process.env.PORT
 const server = app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
 })
-
-
 const io = require('socket.io')(server, {
     cors: {
         origin: "https://pizza-delivery-mern-client.vercel.app"
